@@ -3,7 +3,7 @@ import numpy as np
 import itertools
 
 from abc import ABC, abstractmethod
-from .individual import Individual,  Portfolio
+from Individual import Individual,  Portfolio
 
 
 class CrossOver(ABC) :

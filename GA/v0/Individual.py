@@ -5,6 +5,7 @@ from collections import Iterable, Collection
 import pandas as pd
 import random
 
+
 DEBUG = False
 class InvalidArguments(Exception) :
     def __init__(self, err="invalid arguments") :
@@ -138,10 +139,6 @@ class Individual() :
     def __len__(self) :
         return len(self.chromosome)
 
-    # def __eq__(self, another) :
-    #     return "".join(self.chromosome) == "".join(another.chromosome)
-
-
 class WeightedIndividual(Individual) :
     def __init__(self, *args, **kwargs) :
         Individual.__init__(self, *args, **kwargs)
@@ -265,7 +262,6 @@ class IntegerIndividual(Individual) :
                 chr_lst = self.domain.copy()
                 chr_lst.remove(chromosome[i])
                 chromosome[i] = random.choice(chr_lst)
-        # fit = InSetFitness()
         # chromosome = [ random.choice(- chromosome[i] if factor[i] else chromosome[i] for i in range(chr_len) ]
         
         generation = self.generation + 1

@@ -2,9 +2,9 @@ import random
 import numpy as np
 import pandas as pd
 from abc import ABC, abstractmethod
+from Individual import Individual, Portfolio
 from datetime import datetime
 from collections import Collection 
-from .individual import *
 
 class Fitness(ABC) :
     @abstractmethod
@@ -56,15 +56,9 @@ class SumConstraintFitness(ConstraintFitness) :
 
 class InSetFitness(ConstraintFitness) :
     def _fx(self, individual) :
-        avail_set = []
-        for a in self.avail :
-            avail_set.extend(a)
-        avail_set = set(avail_set)
         f = sum( [
-            1.0 * int(individual[i] in self.c_avail[i]) for i in range(len(individual))
-        ] + [
-            0.1 * int(individual[i] in avail_set) for i in range(len(individual))
-        ])
+            int(individual[i] in self.c_avail[i]) for i in range(len(individual))
+        ] )
         return f
     def _hx(self, individual) :
         return len(set(individual.chromosome))
@@ -73,10 +67,9 @@ class InSetFitness(ConstraintFitness) :
         return len(set(individual.chromosome)) - len(individual.chromosome)
 
 
-    def __init__(self, c_avail, avail, r_c=None) :
+    def __init__(self, c_avail, r_c=None) :
         self.c_avail = c_avail if c_avail else None
-        self.avail   = avail if avail else None
-        self.r_c = r_c if r_c else None
+        self.r_c = r_c if c_avail else None
         ConstraintFitness.__init__(self, fx=self._fx, hx=[self._hx], gx=[self._gx], alpha=1, beta=0)
         
 
